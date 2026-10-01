@@ -78,10 +78,11 @@ app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
 app.config['MAIL_SERVER'] = os.environ.get('MAIL_SERVER', 'smtp.gmail.com')
 app.config['MAIL_PORT'] = int(os.environ.get('MAIL_PORT', 587))
-app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'care@youremail.com')
-app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'password')
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME', 'yashwanthvandili8494@gmail.com')
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD', 'upxhitdwbenywlpr')
 app.config['MAIL_USE_TLS'] = os.environ.get('MAIL_USE_TLS', 'True').lower() in ('true', '1', 't')
 app.config['MAIL_USE_SSL'] = os.environ.get('MAIL_USE_SSL', 'False').lower() in ('true', '1', 't')
+app.config['MAIL_DEFAULT_SENDER'] = ('MyProctor.ai', app.config['MAIL_USERNAME'])
 
 
 app.config['SESSION_COOKIE_SAMESITE'] = "None"
@@ -109,7 +110,7 @@ app.secret_key= 'sem6project'
 
 mysql = MySQL(app)
 
-sender = 'youremail@abc.com'
+sender = ('MyProctor.ai', app.config['MAIL_USERNAME'])
 
 YOUR_DOMAIN = 'http://localhost:5000'
 

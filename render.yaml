@@ -9,3 +9,13 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.10.13
+      - key: MAIL_SERVER
+        value: smtp.gmail.com
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        value: yashwanthvandili8494@gmail.com
+      - key: MAIL_PASSWORD
+        value: upxhitdwbenywlpr
+      - key: MAIL_USE_TLS
+        value: "True"
