@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: myproctor-ai
+    env: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r requirements.txt && python -c "import nltk; nltk.download('punkt'); nltk.download('wordnet'); nltk.download('averaged_perceptron_tagger')"
+    startCommand: gunicorn app:app --workers 1 --threads 4 --timeout 120
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.10.13
