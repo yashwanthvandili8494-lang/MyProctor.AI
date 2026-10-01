@@ -1,4 +1,32 @@
 import os
+import sys
+import ast
+
+# Compatibility polyfill for Python 3.14+ where legacy AST classes were removed
+if not hasattr(ast, "Str"):
+    class _AstStr(ast.Constant):
+        def __init__(self, s="", *args, **kwargs):
+            super().__init__(*args, value=s, **kwargs)
+            self.s = s
+    ast.Str = _AstStr
+
+if not hasattr(ast, "Num"):
+    class _AstNum(ast.Constant):
+        def __init__(self, n=0, *args, **kwargs):
+            super().__init__(*args, value=n, **kwargs)
+            self.n = n
+    ast.Num = _AstNum
+
+if not hasattr(ast, "Bytes"):
+    class _AstBytes(ast.Constant):
+        def __init__(self, s=b"", *args, **kwargs):
+            super().__init__(*args, value=s, **kwargs)
+            self.s = s
+    ast.Bytes = _AstBytes
+
+if not hasattr(ast, "NameConstant"):
+    ast.NameConstant = ast.Constant
+
 from flask import Flask, request, render_template, flash, redirect, url_for,session, logging, send_file, jsonify, Response, render_template_string
 from flask_mysqldb import MySQL
 from wtforms import Form, StringField, TextAreaField, PasswordField, validators, DateTimeField, BooleanField, IntegerField, DecimalField, HiddenField, SelectField, RadioField
@@ -28,6 +56,16 @@ from wtforms.validators import ValidationError, NumberRange
 from flask_session import Session
 from flask_cors import CORS, cross_origin
 import camera
+
+try:
+    import nltk
+    for _pkg in ['punkt', 'wordnet', 'averaged_perceptron_tagger']:
+        try:
+            nltk.data.find(f'tokenizers/{_pkg}' if _pkg == 'punkt' else f'corpora/{_pkg}' if _pkg == 'wordnet' else f'taggers/{_pkg}')
+        except (LookupError, Exception):
+            nltk.download(_pkg, quiet=True)
+except Exception:
+    pass
 
 app = Flask(__name__)
 
